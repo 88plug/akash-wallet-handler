@@ -16,7 +16,7 @@ then
 else
     STATUS="Not running"
     echo "Building Akash Docker container"
-    docker build -t akash . --no-cache > build_akash.log
+    docker build -t akash . > build_akash.log
 fi
 fi
 
@@ -41,16 +41,16 @@ trap "rm $OUTPUT; rm $INPUT; exit" SIGHUP SIGINT SIGTERM
 #  $3 -> set msgbox title
 #
 function display_output(){
-	local h=${1-10}			# box height default 10
-	local w=${2-41} 		# box width default 41
-	local t=${3-Output} 	# box title 
-	dialog --backtitle "Akash Wallet Handler" --title "${t}" --clear --msgbox "$(<$OUTPUT)" ${h} ${w}
+        local h=${1-10}                 # box height default 10
+        local w=${2-41}                 # box width default 41
+        local t=${3-Output}     # box title 
+        dialog --backtitle "Akash Wallet Handler" --title "${t}" --clear --msgbox "$(<$OUTPUT)" ${h} ${w}
 }
 #
 # Purpose - display current system date & time
 #
 function show_date(){
-	echo "Today is $(date) @ $(hostname -f)." >$OUTPUT
+        echo "Today is $(date) @ $(hostname -f)." >$OUTPUT
     display_output 6 60 "Date and Time"
 }
 #
@@ -64,7 +64,7 @@ then
     STATUS="Running"
 else
     STATUS="Not running"
-	if [[ -d data && -f variables ]]; then
+        if [[ -d data && -f variables ]]; then
 echo "Houston we have a problem!, Akash needs to be started"
 read -p "Start Akash now? (y/n)? " choice
 case "$choice" in
@@ -73,7 +73,7 @@ case "$choice" in
   * ) echo "invalid" ; return;;
 esac
 
-	fi
+        fi
 
 fi
 
@@ -120,9 +120,9 @@ fi
 ### display main menu ###
 
 #function sayhello(){
-#	local n=${@-"anonymous person"}
-	#display it
-#	dialog --title "Hello" --clear --msgbox "Hello ${n}, let us be friends!" 10 41
+#       local n=${@-"anonymous person"}
+        #display it
+#       dialog --title "Hello" --clear --msgbox "Hello ${n}, let us be friends!" 10 41
 #}
 
 
@@ -174,7 +174,7 @@ function send_akt() {
         receiveraddress=$(dialog --inputbox "Where to send AKT (address)?" 0 0  --output-fd 1)
         receiveramount=$(dialog --inputbox "How much AKT (amount)?" 0 0  --output-fd 1)
         export receiveramount
-	export receiveraddress
+        export receiveraddress
 }
 #function input_receiver_amount() {
 #        receiveramount=$(dialog --inputbox "How much AKT (amount)?" 0 0  --output-fd 1)
@@ -229,7 +229,7 @@ sleep 10
 
 function finish(){
 . variables
-	echo "Setup finished succesfully at $(date) you can now send funds to $AKASH_ACCOUNT_ADDRESS. Your account must have funds before you can deploy an instance." >$OUTPUT
+        echo "Setup finished succesfully at $(date) you can now send funds to $AKASH_ACCOUNT_ADDRESS. Your account must have funds before you can deploy an instance." >$OUTPUT
     display_output 0 0 "Setup Finished"
 }
 
@@ -367,15 +367,15 @@ done
 
 # make decsion 
 case $menuitem in
-	Setup) setup;;
+        Setup) setup;;
         Deploy) deploy;;
-	Node) ./run-full-node.sh;;
-	Export) ./backup-private-keys.sh  ; echo "Showing keys for 10 seconds!" ; sleep 10;;
+        Node) ./run-full-node.sh;;
+        Export) ./backup-private-keys.sh  ; echo "Showing keys for 10 seconds!" ; sleep 10;;
         Show) pass ; show_address ;;
         Check) echo "Showing balance for 10 seconds!" ; docker exec -it akash /bin/bash -c 'akash query bank balances --node $AKASH_NODE $AKASH_ACCOUNT_ADDRESS' ; sleep 10;;
         Run) run_command ; docker exec -it akash /bin/bash -c "akash $command" ; sleep 5 ; run_another;;
-        Send) send_akt ; pass ; docker exec -it akash /bin/bash -c "echo $pass | akash tx bank send "'"$AKASH_ACCOUNT_ADDRESS"'" $receiveraddress ${receiveramount}uakt --fees 5000uakt --chain-id akashnet-2 -b block -y";;
-	Exit) echo "Bye"; break;;
+        Send) send_akt ; pass ; docker exec -it akash /bin/bash -c "echo $pass | akash tx bank send "'"$AKASH_ACCOUNT_ADDRESS"'" $receiveraddress ${receiveramount}uakt --fees 200uakt --chain-id akashnet-2 -b async -y";;
+        Exit) echo "Bye"; break;;
 
 esac
 
@@ -383,4 +383,3 @@ done
 
 # if temp files found, delete em
 [ -f $OUTPUT ] && rm $OUTPUT
-[ -f $INPUT ] && rm $INPUT
