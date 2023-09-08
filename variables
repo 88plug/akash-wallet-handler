@@ -1,7 +1,0 @@
-AKASH_NODE=https://akash-rpc.global.ssl.fastly.net:443
-AKASH_CHAIN_ID=akashnet-2
-AKASH_KEYRING_BACKEND=os
-AKASH_VERSION=0.24.2
-AKASH_NET=https://raw.githubusercontent.com/akash-network/net/main/mainnet
-AKASH_KEY_NAME=default
-AKASH_ACCOUNT_ADDRESS=
