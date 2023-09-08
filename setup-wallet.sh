@@ -8,11 +8,11 @@ echo "Getting the latest from Akash network to setup variables file"
 
 function variables(){
 rm variables
-AKASH_NET="https://raw.githubusercontent.com/ovrclk/net/master/mainnet"
-AKASH_VERSION="$(curl -s "https://raw.githubusercontent.com/ovrclk/net/master/mainnet/version.txt")"
+AKASH_NET="https://raw.githubusercontent.com/akash-network/net/master/mainnet"
+AKASH_VERSION="$(curl -s "https://raw.githubusercontent.com/akash-network/net/master/mainnet/version.txt")"
 AKASH_KEYRING_BACKEND=os
-AKASH_CHAIN_ID="$(curl -s "https://raw.githubusercontent.com/ovrclk/net/master/mainnet/chain-id.txt")"
-AKASH_NODE="$(curl -s "https://raw.githubusercontent.com/ovrclk/net/master/mainnet/rpc-nodes.txt" | head -1)"
+AKASH_CHAIN_ID="$(curl -s "https://raw.githubusercontent.com/akash-network/net/master/mainnet/chain-id.txt")"
+AKASH_NODE="$(curl -s "https://raw.githubusercontent.com/akash-network/net/master/mainnet/rpc-nodes.txt" | head -1)"
 AKASH_KEY_NAME="default"
 
 echo "AKASH_NODE=$AKASH_NODE" > variables
